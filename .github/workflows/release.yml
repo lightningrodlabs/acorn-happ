@@ -28,8 +28,7 @@ jobs:
        # build hApp
       - name: Build hApp
         run: bash ./scripts/happ-pack.sh
-      - name: upload binary (ubuntu only)
-        if: ${{ runner.os == 'Linux' }}
+      - name: upload dna and happs to the new release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
