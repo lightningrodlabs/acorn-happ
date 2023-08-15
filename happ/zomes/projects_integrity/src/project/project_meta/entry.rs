@@ -2,38 +2,6 @@ use hdi::prelude::*;
 use holo_hash::{ActionHashB64, AgentPubKeyB64};
 use std::*;
 
-use crate::ui_enum::UIEnum;
-
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize, SerializedBytes)]
-#[serde(from = "UIEnum")]
-#[serde(into = "UIEnum")]
-pub enum LayeringAlgorithm {
-    LongestPath,
-    CoffmanGraham,
-    Classic,
-}
-
-impl From<UIEnum> for LayeringAlgorithm {
-    fn from(ui_enum: UIEnum) -> Self {
-        match ui_enum.0.as_str() {
-            "LongestPath" => Self::LongestPath,
-            "CoffmanGraham" => Self::CoffmanGraham,
-            "Classic" => Self::Classic,
-            _ => Self::CoffmanGraham,
-        }
-    }
-}
-impl From<LayeringAlgorithm> for UIEnum {
-    fn from(layering_algorithm: LayeringAlgorithm) -> Self {
-        Self(layering_algorithm.to_string())
-    }
-}
-impl fmt::Display for LayeringAlgorithm {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
-    }
-}
-
 #[hdk_entry_helper]
 #[serde(rename_all = "camelCase")]
 #[derive(Clone, PartialEq)]
@@ -44,7 +12,7 @@ pub struct ProjectMeta {
     pub image: Option<String>,
     pub passphrase: String,
     pub is_imported: bool,
-    pub layering_algorithm: LayeringAlgorithm,
+    pub layering_algorithm: String,
     pub top_priority_outcomes: Vec<ActionHashB64>,
     pub is_migrated: Option<String>, // the string will represent the version migrated to
 }
@@ -57,7 +25,7 @@ impl ProjectMeta {
         image: Option<String>,
         passphrase: String,
         is_imported: bool,
-        layering_algorithm: LayeringAlgorithm,
+        layering_algorithm: String,
         top_priority_outcomes: Vec<ActionHashB64>,
         is_migrated: Option<String>,
     ) -> Self {
