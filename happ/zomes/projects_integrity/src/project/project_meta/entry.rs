@@ -10,6 +10,7 @@ use crate::ui_enum::UIEnum;
 pub enum LayeringAlgorithm {
     LongestPath,
     CoffmanGraham,
+    Classic,
 }
 
 impl From<UIEnum> for LayeringAlgorithm {
@@ -17,6 +18,7 @@ impl From<UIEnum> for LayeringAlgorithm {
         match ui_enum.0.as_str() {
             "LongestPath" => Self::LongestPath,
             "CoffmanGraham" => Self::CoffmanGraham,
+            "Classic" => Self::Classic,
             _ => Self::CoffmanGraham,
         }
     }
