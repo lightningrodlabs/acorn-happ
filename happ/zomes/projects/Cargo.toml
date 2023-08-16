@@ -15,6 +15,6 @@ projects_integrity = { path = "../projects_integrity" }
 paste = "*"
 chrono = { version = "=0.4.22", default-features = false, features = ["clock", "std", "oldtime", "serde"] }
 # use whatever serde hdk uses
-serde = "*"
-thiserror = "1"
+serde = "=1.0.164"
+thiserror = "=1.0.40"
 

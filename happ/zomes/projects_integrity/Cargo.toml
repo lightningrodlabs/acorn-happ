@@ -10,5 +10,5 @@ name = "projects_integrity"
 [dependencies]
 hdi = "=0.2.3"
 holo_hash = { version = "=0.1.3", features = ["encoding"] }
-serde = "*"
-thiserror = "1"
+serde = "=1.0.164"
+thiserror = "=1.0.40"
