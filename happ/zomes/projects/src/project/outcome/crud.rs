@@ -74,6 +74,7 @@ impl fmt::Display for RelationInput {
 pub struct LinkedOutcomeDetails {
     outcome_action_hash: ActionHashB64,
     relation: RelationInput,
+    sibling_order: i32,
 }
 
 #[derive(Serialize, Deserialize, Debug, SerializedBytes, Clone, PartialEq)]
@@ -139,6 +140,7 @@ pub fn create_outcome_with_connection(
             let connection = Connection {
                 parent_action_hash,
                 child_action_hash,
+                sibling_order: linked_outcome_details.sibling_order,
                 randomizer: r0,
                 is_imported: false,
             };
