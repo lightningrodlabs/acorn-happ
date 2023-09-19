@@ -7,9 +7,11 @@ members = [
   "happ/zomes/projects",
   "happ/zomes/projects_integrity",
 ]
+resolver = "2"
 
 [profile.dev]
 opt-level = "z"
 
 [profile.release]
 opt-level = "z"
+
