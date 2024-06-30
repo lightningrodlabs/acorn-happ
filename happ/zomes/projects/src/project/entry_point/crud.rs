@@ -1,7 +1,7 @@
 use crate::{get_peers_content, project::outcome::crud::fetch_outcomes, SignalType};
 use hdk::prelude::*;
 use hdk_crud::{crud, retrieval::inputs::FetchOptions, wire_record::WireRecord};
-use holo_hash::{EntryHashB64};
+use holo_hash::EntryHashB64;
 
 use projects_integrity::{
     project::{entry_point::entry::EntryPoint, outcome::entry::Outcome},
@@ -39,7 +39,7 @@ pub fn fetch_entry_point_details(_: ()) -> ExternResult<EntryPointDetails> {
         .map(|e| {
             let element = get(
                 ActionHash::from(e.entry.outcome_action_hash.clone()),
-                GetOptions::content(),
+                GetOptions::local(),
             )?;
             match element {
                 Some(element) => match element.action().entry_hash() {
