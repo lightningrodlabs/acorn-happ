@@ -5,4 +5,4 @@ rustup target install wasm32-unknown-unknown
 
 # install `hc` cli tool
 # KEEP THIS IN SYNC
-cargo install holochain_cli --version 0.1.0 --locked
+cargo install holochain_cli --version 0.4.0-dev.4 --locked
