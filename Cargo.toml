@@ -1,7 +1,5 @@
 [workspace]
 members = [
-  # "happ/tests/projects",
-  # "happ/tests/profiles",
   "happ/zomes/profiles",
   "happ/zomes/profiles_integrity",
   "happ/zomes/projects",
@@ -15,3 +13,9 @@ opt-level = "z"
 [profile.release]
 opt-level = "z"
 
+[workspace.dependencies]
+hdi = { version = "0.5.0-dev.4" }
+hdk = { version = "0.4.0-dev.4" }
+holochain = { version = "0.4.0-dev.4" }
+holo_hash = {version = "0.4.0-dev.4", features = ["encoding"]}
+hdk_crud = { path = "../hdk_crud", features = ["no_example"] }

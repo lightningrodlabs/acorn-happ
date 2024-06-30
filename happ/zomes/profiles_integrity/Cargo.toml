@@ -8,6 +8,6 @@ crate-type = ["cdylib", "rlib"]
 name = "profiles_integrity"
 
 [dependencies]
-hdi = "=0.2.4"
-holo_hash = { version = "=0.1.4", features = ["encoding"] }
-serde = "=1.0.164"
+hdi = { workspace = true }
+holo_hash = { workspace = true }
+serde = "*"
