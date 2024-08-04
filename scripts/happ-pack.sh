@@ -8,3 +8,4 @@ hc dna pack --output=happ/workdir/projects.dna happ/workdir/dna/projects
 
 # Pack hApp
 hc app pack --output=happ/workdir/acorn.happ happ/workdir
+hc app pack --output=happ/workdir/projects/projects.happ happ/workdir/projects
