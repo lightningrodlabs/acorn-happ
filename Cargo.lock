@@ -1006,6 +1006,8 @@ dependencies = [
 [[package]]
 name = "hdk_crud"
 version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "672f03be8a2ba18c94543169a6932e9d151ebe670b42abd6ca7b6c8624f2e225"
 dependencies = [
  "assert_matches",
  "chrono",
@@ -1562,9 +1564,9 @@ dependencies = [
 
 [[package]]
 name = "paste"
-version = "1.0.5"
+version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "acbf547ad0c65e31259204bd90935776d1c693cec2f4ff7abb7a1bbbd40dfe58"
+checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
 
 [[package]]
 name = "percent-encoding"
