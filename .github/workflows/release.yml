@@ -24,7 +24,7 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
       - name: Install holochain_cli
-        run: cargo install holochain_cli --version 0.1.0 --locked
+        run: cargo install holochain_cli --version 0.4.0-dev.5 --locked
         # build hApp
       - name: Build hApp
         run: bash ./scripts/happ-pack.sh
