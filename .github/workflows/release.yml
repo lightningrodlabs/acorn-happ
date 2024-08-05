@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.65
+      - uses: dtolnay/rust-toolchain@1.74
         with:
           targets: wasm32-unknown-unknown
       - name: Install holochain_cli
