@@ -14,8 +14,8 @@ opt-level = "z"
 opt-level = "z"
 
 [workspace.dependencies]
-hdi = { version = "0.5.0-dev.5" }
-hdk = { version = "0.4.0-dev.5" }
-holochain = { version = "0.4.0-dev.5" }
-holo_hash = {version = "0.4.0-dev.5", features = ["encoding"]}
+hdi = "0.5.0-rc"
+hdk = "0.4.0-rc"
+holochain = { version = "0.4.0-rc" }
+holo_hash = {version = "0.4.0-rc", features = ["encoding"]}
 hdk_crud = { version = "0.13.0", features = ["no_example"] }
