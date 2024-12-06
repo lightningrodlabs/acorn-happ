@@ -38,7 +38,7 @@ pub fn delete_outcome_members(address: ActionHashB64) -> ExternResult<Vec<Action
             &fetch_links,
             &get_latest,
             FetchOptions::All,
-            GetOptions::content(),
+            GetOptions::local(),
             link_type_filter,
             None,
             get_outcome_member_path(LinkTypes::All)?,

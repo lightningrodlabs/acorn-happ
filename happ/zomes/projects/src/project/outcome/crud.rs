@@ -19,7 +19,7 @@ use hdk_crud::{
         fetch_entries::FetchEntries, fetch_links::FetchLinks, get_latest_for_entry::GetLatestEntry,
     },
 }; //may want to do the mock thing
-use holo_hash::{ActionHashB64};
+use holo_hash::ActionHashB64;
 use projects_integrity::{
     project::{
         connection::entry::Connection, entry_point::entry::EntryPoint, outcome::entry::Outcome,
@@ -173,7 +173,7 @@ pub fn create_outcome_with_connection(
     });
     let payload = ExternIO::encode(signal).map_err(|e| wasm_error!(e))?;
     let peers = get_peers_content()?;
-    remote_signal(payload, peers)?;
+    send_remote_signal(payload, peers)?;
 
     Ok(outcome_with_connection)
 }
@@ -217,7 +217,7 @@ pub fn delete_outcome_fully(address: ActionHashB64) -> ExternResult<DeleteOutcom
             &fetch_links,
             &get_latest,
             FetchOptions::All,
-            GetOptions::content(),
+            GetOptions::local(),
             link_type_filter.clone(),
             None,
             get_connection_path(LinkTypes::All)?,
@@ -252,7 +252,7 @@ pub fn delete_outcome_fully(address: ActionHashB64) -> ExternResult<DeleteOutcom
             &fetch_links,
             &get_latest,
             FetchOptions::All,
-            GetOptions::content(),
+            GetOptions::local(),
             link_type_filter.clone(),
             None,
             get_outcome_vote_path(LinkTypes::All)?,
@@ -275,13 +275,13 @@ pub fn delete_outcome_fully(address: ActionHashB64) -> ExternResult<DeleteOutcom
         .collect();
 
     let deleted_outcome_comments =
-        // inner_fetch_outcome_comments(FetchOptions::All, GetOptions::content())?
+        // inner_fetch_outcome_comments(FetchOptions::All, GetOptions::local())?
         do_fetch.do_fetch::<OutcomeComment, WasmError>(
             &fetch_entries,
             &fetch_links,
             &get_latest,
             FetchOptions::All,
-            GetOptions::content(),
+            GetOptions::local(),
             link_type_filter.clone(),
             None,
             get_outcome_comment_path(LinkTypes::All)?,
@@ -309,7 +309,7 @@ pub fn delete_outcome_fully(address: ActionHashB64) -> ExternResult<DeleteOutcom
             &fetch_links,
             &get_latest,
             FetchOptions::All,
-            GetOptions::content(),
+            GetOptions::local(),
             link_type_filter,
             None,
             get_entry_point_path(LinkTypes::All)?,
@@ -347,7 +347,7 @@ pub fn delete_outcome_fully(address: ActionHashB64) -> ExternResult<DeleteOutcom
     });
     let payload = ExternIO::encode(signal).map_err(|e| wasm_error!(e))?;
     let peers = get_peers_content()?;
-    remote_signal(payload, peers)?;
+    send_remote_signal(payload, peers)?;
 
     Ok(delete_response)
 }

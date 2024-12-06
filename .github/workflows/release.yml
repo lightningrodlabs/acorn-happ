@@ -14,18 +14,18 @@ jobs:
       - uses: taiki-e/create-gh-release-action@v1
         env:
           # (required)
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-and-release-happ:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.65
+      - uses: dtolnay/rust-toolchain@1.74
         with:
           targets: wasm32-unknown-unknown
       - name: Install holochain_cli
-        run: cargo install holochain_cli --version 0.1.0 --locked
-       # build hApp
+        run: cargo install holochain_cli --version 0.4.0-dev.5 --locked
+        # build hApp
       - name: Build hApp
         run: bash ./scripts/happ-pack.sh
       - name: upload dna and happs to the new release
@@ -33,6 +33,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release upload "${GITHUB_REF#refs/tags/}" "happ/workdir/profiles.dna" --clobber
-          gh release upload "${GITHUB_REF#refs/tags/}" "happ/workdir/profiles/profiles.happ" --clobber
           gh release upload "${GITHUB_REF#refs/tags/}" "happ/workdir/projects.dna" --clobber
           gh release upload "${GITHUB_REF#refs/tags/}" "happ/workdir/projects/projects.happ" --clobber
+          gh release upload "${GITHUB_REF#refs/tags/}" "happ/workdir/acorn.happ" --clobber
