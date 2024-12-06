@@ -156,36 +156,41 @@ pub fn whoami(_: ()) -> ExternResult<WhoAmIOutput> {
     let agent_pubkey = agent_info()?.agent_initial_pubkey;
     let agent_entry_hash = EntryHash::from(agent_pubkey);
 
-    let all_profiles = get_links(agent_entry_hash, LinkTypes::Profile, None)?;
-    
+    let input = GetLinksInputBuilder::try_new(agent_entry_hash, LinkTypes::Profile)?;
+    let all_profiles = get_links(input.build())?;
+
     // fetch all profile entries from the link targets
-    let all_fetched_maybe_profiles = all_profiles.into_iter()
-        .map(|link|{
+    let all_fetched_maybe_profiles = all_profiles
+        .into_iter()
+        .map(|link| {
             let get_latest = GetLatestEntry {};
             get_latest.get_latest_for_entry::<Profile>(
-                link.target.clone().into(),
-                GetOptions::content(),
+                link.target.try_into().map_err(|_| {
+                    wasm_error!(WasmErrorInner::Guest("Target is not an entry".to_string()))
+                })?,
+                GetOptions::local(),
             )
         })
         .collect::<ExternResult<Vec<Option<WireRecord<Profile>>>>>()?;
 
     // filter out any `None` variants from the vec
-    let all_fetched_profiles = all_fetched_maybe_profiles.into_iter()
-        .filter_map(|maybe_profile| {
-            maybe_profile
-        })
+    let all_fetched_profiles = all_fetched_maybe_profiles
+        .into_iter()
+        .filter_map(|maybe_profile| maybe_profile)
         .collect::<Vec<WireRecord<Profile>>>();
     let copied_all_profiles = all_fetched_profiles.clone();
-    
+
     // return the first profile which is not imported if it exists, otherwise return the last profile in the vec
-    match all_fetched_profiles.into_iter()    
-        .find(|wire_record| !wire_record.entry.is_imported) {
-            Some(profile) => Ok(WhoAmIOutput(Some(profile))),
-            None => match copied_all_profiles.last() {
-                Some(last_profile) => Ok(WhoAmIOutput(Some(last_profile.clone()))),
-                None => Ok(WhoAmIOutput(None)),
-            }
-        }
+    match all_fetched_profiles
+        .into_iter()
+        .find(|wire_record| !wire_record.entry.is_imported)
+    {
+        Some(profile) => Ok(WhoAmIOutput(Some(profile))),
+        None => match copied_all_profiles.last() {
+            Some(last_profile) => Ok(WhoAmIOutput(Some(last_profile.clone()))),
+            None => Ok(WhoAmIOutput(None)),
+        },
+    }
 }
 
 /// Fetch a list of all agent profiles, returning only one profile per agent pub key. If a non-imported profile exists, return that one, otherwise return the imported profile.
@@ -202,12 +207,12 @@ pub fn fetch_agents(_: ()) -> ExternResult<Vec<Profile>> {
             path_hash,
             link_type_filter,
             None,
-            GetOptions::content(),
+            GetOptions::local(),
         )?
         .into_iter()
         .map(|wire_record| wire_record.entry)
         .collect();
-    
+
     // use a BTreeMap to associate a profile struct to an agent pub key, used to dedup profiles for the same agent
     let mut unique_profiles: BTreeMap<AgentPubKeyB64, Profile> = BTreeMap::new();
     for profile in entries {
@@ -223,11 +228,12 @@ pub fn fetch_agents(_: ()) -> ExternResult<Vec<Profile>> {
             unique_profiles.insert(profile.clone().agent_pub_key, profile);
         }
     }
-    
+
     // map the values of the BTreeMap into a vector
-    Ok(unique_profiles.values().map(|profile|{
-        profile.clone()
-    }).collect::<Vec<Profile>>())
+    Ok(unique_profiles
+        .values()
+        .map(|profile| profile.clone())
+        .collect::<Vec<Profile>>())
 }
 
 #[hdk_extern]
@@ -247,7 +253,7 @@ fn send_agent_signal(
     let payload =
         ExternIO::encode(signal).map_err(|e| wasm_error!(WasmErrorInner::Serialize(e)))?;
     let peers = get_peers_to_signal()?;
-    remote_signal(payload, peers)?;
+    send_remote_signal(payload, peers)?;
     Ok(())
 }
 
@@ -262,7 +268,7 @@ fn get_peers() -> ExternResult<Vec<AgentPubKey>> {
         path_hash,
         link_type_filter,
         None,
-        GetOptions::latest(),
+        GetOptions::network(),
     )?;
     let self_agent_pub_key = AgentPubKeyB64::from(agent_info()?.agent_initial_pubkey);
     Ok(entries

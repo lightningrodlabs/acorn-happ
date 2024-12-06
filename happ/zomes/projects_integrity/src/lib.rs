@@ -10,27 +10,27 @@ use project::{
     project_meta::entry::ProjectMeta, tag::entry::Tag,
 };
 
-#[hdk_entry_defs]
+#[hdk_entry_types]
 #[unit_enum(UnitEntryTypes)]
 #[derive(Clone)]
 pub enum EntryTypes {
-    #[entry_def]
+    #[entry_type]
     Tag(Tag),
-    #[entry_def]
+    #[entry_type]
     Connection(Connection),
-    #[entry_def]
+    #[entry_type]
     EntryPoint(EntryPoint),
-    #[entry_def]
+    #[entry_type]
     Outcome(Outcome),
-    #[entry_def]
+    #[entry_type]
     OutcomeComment(OutcomeComment),
-    #[entry_def]
+    #[entry_type]
     OutcomeMember(OutcomeMember),
-    #[entry_def]
+    #[entry_type]
     OutcomeVote(OutcomeVote),
-    #[entry_def]
+    #[entry_type]
     Member(Member),
-    #[entry_def]
+    #[entry_type]
     ProjectMeta(ProjectMeta),
 }
 

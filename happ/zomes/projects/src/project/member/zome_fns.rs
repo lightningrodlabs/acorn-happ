@@ -21,7 +21,7 @@ pub fn fetch_members(_: ()) -> ExternResult<Vec<WireRecord<Member>>> {
         path_hash,
         link_type_filter,
         None,
-        GetOptions::content(),
+        GetOptions::local(),
     )?;
     Ok(entries)
 }
@@ -36,6 +36,6 @@ pub fn init_signal(_: ()) -> ExternResult<()> {
     let signal = MemberSignal::new(member.clone());
     let payload = ExternIO::encode(signal).map_err(|e| wasm_error!(e))?;
     let peers = get_peers_latest()?;
-    remote_signal(payload, peers)?;
+    send_remote_signal(payload, peers)?;
     Ok(())
 }

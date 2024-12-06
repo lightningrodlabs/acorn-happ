@@ -6,9 +6,9 @@ edition = "2021"
 [lib]
 
 [dependencies]
-hdk_crud = "0.7.1"
-holo_hash = { version = "=0.0.19", features = ["encoding", "fixturators"] }
-hdk = "0.0.122"
+hdk_crud = { workpace = true }
+holo_hash = { workspace = true }
+hdk = { workspace = true }
 profiles = { path = "../../zomes/profiles" }
 paste = "*"
 # use whatever serde hdk uses

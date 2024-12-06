@@ -160,7 +160,7 @@ pub fn emit_realtime_info_signal(realtime_info: RealtimeInfoInput) -> ExternResu
     let signal = SignalType::RealtimeInfo(realtime_info_signal);
     let payload = ExternIO::encode(signal).map_err(|e| wasm_error!(e))?;
     let peers = get_peers_content()?;
-    remote_signal(payload, peers)?;
+    send_remote_signal(payload, peers)?;
     Ok(())
 }
 #[hdk_extern]
@@ -175,15 +175,15 @@ pub fn emit_editing_outcome_signal(editing_outcome_info: EditingOutcomeInput) ->
     let signal = SignalType::EditingOutcome(editing_outcome_signal);
     let payload = ExternIO::encode(signal).map_err(|e| wasm_error!(e))?;
     let peers = get_peers_content()?;
-    remote_signal(payload, peers)?;
+    send_remote_signal(payload, peers)?;
     Ok(())
 }
 
 pub fn get_peers_latest() -> ExternResult<Vec<AgentPubKey>> {
-    get_peers(GetOptions::latest())
+    get_peers(GetOptions::network())
 }
 pub fn get_peers_content() -> ExternResult<Vec<AgentPubKey>> {
-    get_peers(GetOptions::content())
+    get_peers(GetOptions::local())
 }
 
 // used to get addresses of agents to send signals to

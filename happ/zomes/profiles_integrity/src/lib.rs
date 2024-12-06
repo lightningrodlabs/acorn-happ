@@ -1,10 +1,10 @@
 use hdi::prelude::*;
 use holo_hash::AgentPubKeyB64;
 
-#[hdk_entry_defs]
+#[hdk_entry_types]
 #[unit_enum(UnitEntryTypes)]
 pub enum EntryTypes {
-    #[entry_def(required_validations = 5)]
+    #[entry_type(required_validations = 5)]
     Profile(Profile),
 }
 

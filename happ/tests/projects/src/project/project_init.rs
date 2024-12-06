@@ -70,7 +70,7 @@ pub mod tests {
         );
         let member_path_get_input = vec![GetInput::new(
             AnyDhtHash::from(member_path_entry_hash.clone()),
-            GetOptions::content(),
+            GetOptions::local(),
         )];
         // assuming the path exists on DHT
         let expected_get_output = vec![Some(fixt!(Element))];
