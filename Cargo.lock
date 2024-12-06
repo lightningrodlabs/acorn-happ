@@ -549,9 +549,9 @@ dependencies = [
 
 [[package]]
 name = "hdk_crud"
-version = "0.13.0"
+version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "672f03be8a2ba18c94543169a6932e9d151ebe670b42abd6ca7b6c8624f2e225"
+checksum = "12c66379ba15a1468f368d2bf7ec40afe6913d640044082ca95209529f46302a"
 dependencies = [
  "assert_matches",
  "chrono",
